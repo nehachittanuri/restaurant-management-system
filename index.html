@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Management System</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-utensils"></i> Restaurant Management</h1>
+            <nav>
+                <ul>
+                    <li class="active" data-tab="dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</li>
+                    <li data-tab="menu"><i class="fas fa-book-open"></i> Menu</li>
+                    <li data-tab="orders"><i class="fas fa-clipboard-list"></i> Orders</li>
+                    <li data-tab="staff"><i class="fas fa-users"></i> Staff</li>
+                    <li data-tab="inventory"><i class="fas fa-boxes"></i> Inventory</li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <!-- Dashboard Tab -->
+            <section id="dashboard" class="tab-content active">
+                <div class="stats">
+                    <div class="stat-card">
+                        <h3>Today's Orders</h3>
+                        <p id="today-orders">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Active Tables</h3>
+                        <p id="active-tables">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Menu Items</h3>
+                        <p id="menu-items">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Staff On Duty</h3>
+                        <p id="staff-on-duty">0</p>
+                    </div>
+                </div>
+
+                <div class="recent-orders">
+                    <h2>Recent Orders</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Table</th>
+                                <th>Items</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recent-orders-list">
+                            <!-- Orders will be added here by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Menu Tab -->
+            <section id="menu" class="tab-content">
+                <div class="menu-actions">
+                    <button id="add-menu-item"><i class="fas fa-plus"></i> Add Item</button>
+                    <div class="search">
+                        <input type="text" id="menu-search" placeholder="Search menu...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </div>
+
+                <div class="menu-categories">
+                    <button class="category-btn active" data-category="all">All</button>
+                    <button class="category-btn" data-category="appetizers">Appetizers</button>
+                    <button class="category-btn" data-category="mains">Main Courses</button>
+                    <button class="category-btn" data-category="desserts">Desserts</button>
+                    <button class="category-btn" data-category="drinks">Drinks</button>
+                </div>
+
+                <div class="menu-items" id="menu-items-container">
+                    <!-- Menu items will be added here by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Orders Tab -->
+            <section id="orders" class="tab-content">
+                <div class="order-filters">
+                    <select id="order-status-filter">
+                        <option value="all">All Orders</option>
+                        <option value="pending">Pending</option>
+                        <option value="preparing">Preparing</option>
+                        <option value="ready">Ready to Serve</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                    <button id="new-order-btn"><i class="fas fa-plus"></i> New Order</button>
+                </div>
+
+                <div class="orders-list" id="orders-container">
+                    <!-- Orders will be added here by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Staff Tab -->
+            <section id="staff" class="tab-content">
+                <div class="staff-actions">
+                    <button id="add-staff-btn"><i class="fas fa-plus"></i> Add Staff</button>
+                    <div class="search">
+                        <input type="text" id="staff-search" placeholder="Search staff...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </div>
+
+                <div class="staff-list" id="staff-container">
+                    <!-- Staff members will be added here by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Inventory Tab -->
+            <section id="inventory" class="tab-content">
+                <div class="inventory-actions">
+                    <button id="add-inventory-item"><i class="fas fa-plus"></i> Add Item</button>
+                    <div class="search">
+                        <input type="text" id="inventory-search" placeholder="Search inventory...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </div>
+
+                <div class="inventory-list">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Category</th>
+                                <th>Quantity</th>
+                                <th>Unit</th>
+                                <th>Last Updated</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inventory-items">
+                            <!-- Inventory items will be added here by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal for adding menu items -->
+    <div class="modal" id="menu-item-modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Add Menu Item</h2>
+            <form id="menu-item-form">
+                <div class="form-group">
+                    <label for="item-name">Item Name</label>
+                    <input type="text" id="item-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="item-description">Description</label>
+                    <textarea id="item-description" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="item-category">Category</label>
+                    <select id="item-category" required>
+                        <option value="appetizers">Appetizers</option>
+                        <option value="mains">Main Courses</option>
+                        <option value="desserts">Desserts</option>
+                        <option value="drinks">Drinks</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="item-price">Price ($)</label>
+                    <input type="number" id="item-price" min="0" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="item-image">Image URL</label>
+                    <input type="text" id="item-image">
+                </div>
+                <button type="submit">Save Item</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for new order -->
+    <div class="modal" id="new-order-modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Create New Order</h2>
+            <form id="new-order-form">
+                <div class="form-group">
+                    <label for="order-table">Table Number</label>
+                    <input type="number" id="order-table" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label for="order-customer">Customer Name</label>
+                    <input type="text" id="order-customer">
+                </div>
+                <div class="form-group">
+                    <label>Select Menu Items</label>
+                    <div class="menu-selection" id="order-menu-items">
+                        <!-- Menu items will be added here by JavaScript -->
+                    </div>
+                </div>
+                <div class="order-summary">
+                    <h3>Order Summary</h3>
+                    <ul id="order-summary-items">
+                        <!-- Selected items will be added here -->
+                    </ul>
+                    <p>Total: $<span id="order-total">0.00</span></p>
+                </div>
+                <button type="submit">Place Order</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
