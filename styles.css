@@ -122,9 +122,8 @@ th, td {
     border-bottom: 1px solid #eee;
 }
 
-th {
+tr:hover {
     background-color: #f8f9fa;
-    font-weight: 600;
 }
 
 /* Menu Styles */
